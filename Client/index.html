@@ -1,0 +1,46 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Param Generator</title>
+</head>
+<body>
+    <h1>Hello ,I am ParamPattern Generator </h1>
+    <textarea name ="paramPatternArray" id="paramPatternArray" placeholder="write prop values by separating comma(,)"  style ="width: 50%; height: 200px;"></textarea>
+    <h1>Give a sample pattern </h1>
+    <input type="text" id="pattern" style ="width:50%; height:20px"placeholder="enter the pattern by replacing prop value by 'xx'" />
+    <button id="generatebtn" type="button">Generate Pattern</button>
+    <h1>Genrated params are ready to copy </h1>
+    <textarea name ="genratedparams" style ="width: 50%; height: 200px;" id="generated-params"></textarea>
+    <script type="text/javascript" >
+        const genratePatternBtn = document.getElementById("generatebtn");
+        genratePatternBtn.addEventListener("click", genratePattern);
+        function genratePattern() {
+              const enteredvalues = document.getElementById("paramPatternArray");
+              let  pattern = document.getElementById("pattern");
+              let returnedValue = "";
+              const totalprops = Math.floor(pattern.value.split("=").length/2)+1;
+              totalparmarray = [];
+              let currentcompletedProps = 0;
+              let genratePatternstring= document.getElementById("pattern").value;
+              enteredvalues.value.split(',').map((value)=>{
+                  if(currentcompletedProps===totalprops){
+                      currentcompletedProps = 0;
+                      genratePatternstring= document.getElementById("pattern").value;
+                    }
+                 if(currentcompletedProps==0){
+                    genratePatternstring= genratePatternstring.replace('="xx"',`="${value.toUpperCase()}"`);
+                }
+                else{
+                     genratePatternstring= genratePatternstring.replace('="xx"',`="${value}"`);
+                    }
+                    currentcompletedProps+=1;
+                   if(currentcompletedProps===totalprops){
+                        totalparmarray.push(genratePatternstring);
+                    };
+        });
+    document.getElementById("generated-params").innerHTML = Array([...new Set(totalparmarray)]).join(",");
+}
+    </script>
+</body>
+</html>
